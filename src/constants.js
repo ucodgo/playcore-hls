@@ -1,4 +1,4 @@
-export const HLS_SDK = 'https://cdn.jsdelivr.net/npm/hls.js@latest'
+// export const HLS_SDK = 'https://cdn.jsdelivr.net/npm/hls.js@latest'
 
 export const LOAD_SDK_TIMEOUT = 60 * 1000
 
