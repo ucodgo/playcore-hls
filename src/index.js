@@ -1,26 +1,20 @@
 /**
  * A vue-core-video-player PlayCore for HLS Format
 */
-/* global Hls, hls */
-import loadScript from 'load-script'
+/* global Hls, hls */ 
 import { BaseVideoCore, EVENTS } from 'vue-core-video-player'
 // import EVENTS from '../constants/EVENTS'
 import { isMSESupported, isChrome, isAndroid, isApple, isUC, getFormatBandwidth } from './util'
-import { LOAD_SDK_TIMEOUT,  DEFAULT_HLS_RESOLUTION, HLS_DEFAULT_CONFIG, ERROR_TYPE, HLS_ERROR_WHITE, HLS_EVENTS } from './constants'
-import HLS_SDK from 'hls.js'
+import { LOAD_SDK_TIMEOUT, DEFAULT_HLS_RESOLUTION, HLS_DEFAULT_CONFIG, ERROR_TYPE, HLS_ERROR_WHITE, HLS_EVENTS } from './constants'
+import Hls from 'hls.js'
 class HLSCore extends BaseVideoCore {
 
 
-  init () {
-    
-    if (!window.Hls) {
-      this.loadSDK(() => {
-        this.pause()
-        this.initHLSCore()
-      })
-    } else {
-      this.initHLSCore()
-    }
+  init() {
+
+
+    this.initHLSCore()
+
     this.setSize()
     this.emit(EVENTS.LIFECYCLE_INITED)
   }
@@ -50,32 +44,12 @@ class HLSCore extends BaseVideoCore {
     this.bindEvents()
   }
 
-  parse () {
+  parse() {
     // @override the default parse
     this.source = {}
   }
 
-  loadSDK (callback) {
-    const timeout = setTimeout(() => {
-      if (!window.Hls) {
-        this.emit(EVENTS.CORE_TO_MP4, true)
-      }
-    }, LOAD_SDK_TIMEOUT)
-    loadScript(HLS_SDK, (err, script) => {
-      if (err) {
-        clearTimeout(timeout)
-        this.emit(EVENTS.CORE_TO_MP4, true)
-        this.emit(EVENTS.ERROR, {
-          code: 601,
-          message: JSON.stringify(err)
-        })
-        return
-      }
-      if (script) {
-        callback()
-      }
-    })
-  }
+   
 
   // proxy some hls events
   bindEvents() {
@@ -202,7 +176,7 @@ class HLSCore extends BaseVideoCore {
     }
   }
 
-  checkHLSSupport () {
+  checkHLSSupport() {
     if (isMSESupported()) {
       // in android we only support chrome
       if (isAndroid && isChrome) {
